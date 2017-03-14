@@ -105,9 +105,12 @@ class FacebookUrlDetectionHandler implements UrlDetectionInterface
             }
         }
 
-        // trim and remove port number from host
+        // trim and remove port number from host if it is not vagrant forwarded port
         // host is lowercase as per RFC 952/2181
-        $host = strtolower(preg_replace('/:\d+$/', '', trim($host)));
+        if(!preg_match('/:4430$/', $host))
+        {
+            $host = strtolower(preg_replace('/:\d+$/', '', trim($host)));
+        }
 
         // Port number
         $scheme = $this->getHttpScheme();
